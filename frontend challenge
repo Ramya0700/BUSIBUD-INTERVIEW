@@ -1,0 +1,20 @@
+const rootApp = document.getElementById("root");
+
+// Create a button element
+const button = document.createElement("button");
+button.textContent = "ON";
+
+// Add a class to the button for styling
+button.classList.add("toggle-button");
+
+// Add event listener to handle button click
+button.addEventListener("click", function () {
+  if (button.textContent === "ON") {
+    button.textContent = "OFF";
+  } else {
+    button.textContent = "ON";
+  }
+});
+
+// Append the button to the root element
+rootApp.appendChild(button);
