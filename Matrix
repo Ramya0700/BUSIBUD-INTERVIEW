@@ -1,0 +1,48 @@
+public class Main {
+    public static void main(String[] args) {
+        String[] strArr = {"01111","01101","00011","11110"};
+        System.out.println(ArrayChallenge(strArr)); // Output: 2
+    }
+
+    public static int ArrayChallenge(String[] strArr) {
+        int[][] matrix = new int[strArr.length][strArr[0].length()];
+        int holesCount = 0;
+
+        // Convert the input string array into a 2D matrix
+        for (int i = 0; i < strArr.length; i++) {
+            String row = strArr[i];
+            for (int j = 0; j < row.length(); j++) {
+                matrix[i][j] = Character.getNumericValue(row.charAt(j));
+            }
+        }
+
+        // Iterate over each cell in the matrix
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == 0) {
+                    // Found a hole, increment the count and perform DFS to mark all connected 0's as visited
+                    holesCount++;
+                    dfs(matrix, i, j);
+                }
+            }
+        }
+
+        return holesCount;
+    }
+
+    private static void dfs(int[][] matrix, int row, int col) {
+        if (row < 0 || col < 0 || row >= matrix.length || col >= matrix[0].length || matrix[row][col] != 0) {
+            // Out of bounds or not a 0 cell
+            return;
+        }
+
+        // Mark the current cell as visited (1) to avoid revisiting it
+        matrix[row][col] = 1;
+
+        // Perform DFS in all four directions (up, down, left, right)
+        dfs(matrix, row - 1, col); // Up
+        dfs(matrix, row + 1, col); // Down
+        dfs(matrix, row, col - 1); // Left
+        dfs(matrix, row, col + 1); // Right
+    }
+}
