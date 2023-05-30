@@ -1,0 +1,48 @@
+import java.util.HashMap;
+import java.util.Map;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] strArr = {"(1,2)","(2,4)","(5,7)","(7,2)","(9,5)"};
+        System.out.println(ArrayChallenge(strArr)); // Output: true
+    }
+
+    public static String ArrayChallenge(String[] strArr) {
+        Map<Integer, Integer> parentChildMap = new HashMap<>();
+
+        for (String pair : strArr) {
+            int child = extractChild(pair);
+            int parent = extractParent(pair);
+
+            if (parentChildMap.containsKey(child)) {
+                // Child node already has a parent, so it's not a valid binary tree
+                return "false";
+            }
+
+            parentChildMap.put(child, parent);
+        }
+
+        // Check if there's a single root node (only one node without a parent)
+        int rootCount = 0;
+        for (int child : parentChildMap.keySet()) {
+            if (!parentChildMap.containsValue(child)) {
+                rootCount++;
+                if (rootCount > 1) {
+                    // More than one root node, so it's not a valid binary tree
+                    return "false";
+                }
+            }
+        }
+
+        // If there's no root node, it's not a valid binary tree
+        return (rootCount == 1) ? "true" : "false";
+    }
+
+    private static int extractChild(String pair) {
+        return Integer.parseInt(pair.substring(pair.indexOf("(") + 1, pair.indexOf(",")));
+    }
+
+    private static int extractParent(String pair) {
+        return Integer.parseInt(pair.substring(pair.indexOf(",") + 1, pair.indexOf(")")));
+    }
+}
