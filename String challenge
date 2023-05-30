@@ -1,0 +1,31 @@
+function StringChallenge(str) {
+  let maxCount = 0;
+  
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    const indices = [];
+    
+    // Find indices of the current character
+    for (let j = i + 1; j < str.length; j++) {
+      if (str[j] === char) {
+        indices.push(j);
+      }
+    }
+    
+    // Calculate unique characters between pairs of matching characters
+    for (let k = 0; k < indices.length; k++) {
+      const uniqueChars = new Set();
+      
+      for (let l = i + 1; l < indices[k]; l++) {
+        uniqueChars.add(str[l]);
+      }
+      
+      const count = uniqueChars.size;
+      if (count > maxCount) {
+        maxCount = count;
+      }
+    }
+  }
+  
+  return maxCount;
+}
